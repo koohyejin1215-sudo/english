@@ -1,0 +1,385 @@
+<!doctype html>
+<html lang="ko">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon-192.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta name="theme-color" content="#ff6b4a">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="우리집 영어">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<title>Real English 100</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Noto+Sans+KR:wght@400;500;700&family=JetBrains+Mono:wght@500&display=swap">
+<style>
+/* Layout: a study notebook — sticky toolbar, one numbered entry per expression, highlighter marks the target phrase */
+:root{
+  --bg:#f7f8fb; --paper:#ffffff; --ink:#18213a; --muted:#5d6782; --line:#dfe3ee;
+  --accent:#2747c9; --accent-soft:#e7ecfd; --hl:#ffe45c; --hl-ink:#18213a; --col:#0f8a6a; --col-soft:#dff4ec;
+  --f-display:"Bricolage Grotesque", "Noto Sans KR", system-ui, sans-serif;
+  --f-body:"Noto Sans KR", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --f-mono:"JetBrains Mono", ui-monospace, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --bg:#0f1322; --paper:#161b2e; --ink:#e7eaf5; --muted:#9aa3bf; --line:#2a3150;
+  --accent:#8ea5ff; --accent-soft:#1f2850; --hl:#d9b92a; --hl-ink:#10131f; --col:#4fd1a8; --col-soft:#143a31; color-scheme:dark } }
+:root[data-theme="dark"]{
+  --bg:#0f1322; --paper:#161b2e; --ink:#e7eaf5; --muted:#9aa3bf; --line:#2a3150;
+  --accent:#8ea5ff; --accent-soft:#1f2850; --hl:#d9b92a; --hl-ink:#10131f; --col:#4fd1a8; --col-soft:#143a31; color-scheme:dark }
+*{box-sizing:border-box}
+body{background:var(--bg); color:var(--ink); font-family:var(--f-body); font-size:16px; line-height:1.6;
+  padding-left:max(16px, env(safe-area-inset-left, 0px)); padding-right:max(16px, env(safe-area-inset-right, 0px));}
+body::before{content:""; position:fixed; inset:0 0 auto; height:env(safe-area-inset-top, 0px); z-index:10; background:var(--bg)}
+.wrap{max-width:860px; margin:0 auto; padding-block:32px 80px}
+header h1{font-family:var(--f-display); font-weight:800; font-size:clamp(2rem, 6vw, 3.2rem); line-height:1.05; margin:0 0 8px; text-wrap:balance; letter-spacing:-0.02em}
+header h1 .hl{background:linear-gradient(transparent 55%, var(--hl) 55%); color:inherit; padding:0 4px}
+header p{color:var(--muted); margin:0 0 6px; max-width:65ch}
+.how{display:grid; grid-template-columns:repeat(auto-fit, minmax(220px,1fr)); gap:10px; margin:20px 0 8px}
+.how div{background:var(--paper); border:1px solid var(--line); border-radius:10px; padding:12px 14px; font-size:0.9rem; min-width:0}
+.how b{display:block; font-family:var(--f-display); font-size:1rem}
+.bar{position:sticky; top:env(safe-area-inset-top, 0px); z-index:5; background:var(--bg); padding:12px 0; border-bottom:1px solid var(--line); display:flex; flex-wrap:wrap; gap:8px; align-items:center}
+.bar input[type=search]{flex:1 1 220px; min-width:0; font:inherit; padding:9px 12px; border-radius:8px; border:1px solid var(--line); background:var(--paper); color:var(--ink)}
+.chip{font:inherit; font-size:0.88rem; padding:7px 12px; border-radius:999px; border:1px solid var(--line); background:var(--paper); color:var(--ink); cursor:pointer}
+.chip[aria-pressed="true"]{background:var(--accent); border-color:var(--accent); color:var(--paper)}
+.count{font-family:var(--f-mono); font-size:0.82rem; color:var(--muted); margin-left:auto; font-variant-numeric:tabular-nums}
+:focus-visible{outline:2px solid var(--accent); outline-offset:2px}
+.list{display:flex; flex-direction:column; gap:18px; margin-top:20px}
+article{background:var(--paper); border:1px solid var(--line); border-radius:12px; padding:20px 22px; display:grid; grid-template-columns:56px 1fr; gap:4px 16px}
+article.done{opacity:0.62}
+.num{font-family:var(--f-mono); font-size:1.5rem; color:var(--accent); font-variant-numeric:tabular-nums; line-height:1.2}
+.body{min-width:0}
+.top{display:flex; flex-wrap:wrap; gap:8px 12px; align-items:baseline}
+h2{font-family:var(--f-display); font-weight:700; font-size:1.6rem; margin:0; line-height:1.2; letter-spacing:-0.01em}
+h2 span{background:linear-gradient(transparent 58%, var(--hl) 58%); padding:0 3px}
+.tag{font-size:0.74rem; font-weight:700; letter-spacing:0.06em; padding:2px 8px; border-radius:6px; background:var(--accent-soft); color:var(--accent)}
+.tag.col{background:var(--col-soft); color:var(--col)}
+.mean{margin:10px 0 4px; display:grid; gap:2px}
+.mean .en{font-weight:500}
+.mean .kr{color:var(--muted)}
+.label{font-size:0.72rem; font-weight:700; letter-spacing:0.08em; color:var(--muted); text-transform:uppercase; margin:14px 0 4px}
+ol.ex{margin:0; padding-left:1.4em; display:grid; gap:4px}
+ol.ex li::marker{color:var(--muted); font-family:var(--f-mono); font-size:0.85em}
+mark{background:var(--hl); color:var(--hl-ink); padding:0 2px; border-radius:2px}
+.clips{display:flex; flex-wrap:wrap; gap:8px; margin-top:6px}
+.clips a{display:inline-flex; align-items:center; gap:6px; text-decoration:none; font-size:0.86rem; font-weight:500; padding:7px 12px; border-radius:8px; border:1px solid var(--line); color:var(--ink); background:var(--bg)}
+.clips a:hover{border-color:var(--accent); color:var(--accent)}
+.clips svg{width:14px; height:14px; flex:none; fill:currentColor}
+.done-box{display:flex; align-items:center; gap:6px; font-size:0.86rem; color:var(--muted); margin-top:14px; cursor:pointer; width:max-content}
+.empty{color:var(--muted); text-align:center; padding:40px 0}
+@media (max-width:520px){
+  body{font-size:17px}
+  article{grid-template-columns:1fr; padding:16px}
+  .num{font-size:1.1rem}
+  header h1{font-size:1.9rem}
+  .how{grid-template-columns:1fr}
+  .bar{flex-wrap:nowrap; overflow-x:auto; -webkit-overflow-scrolling:touch; scrollbar-width:none; padding-block:8px}
+  .bar::-webkit-scrollbar{display:none}
+  .bar input[type=search]{flex:0 0 150px; font-size:16px}
+  .chip{flex:none; padding:9px 12px}
+  .count{display:none}
+  .clips{flex-direction:column}
+  .clips a{justify-content:center; min-height:48px; font-size:1rem}
+  .done-box{min-height:44px}
+  .done-box input{width:22px; height:22px}
+}
+.clips a{-webkit-tap-highlight-color:transparent; touch-action:manipulation}
+article{scroll-margin-top:80px}
+@media (prefers-reduced-motion: reduce){ *{transition:none!important} }
+</style>
+
+<div class="wrap">
+<header>
+  <h1>실전 영어 <span class="hl">이어동사 · 구어 표현</span> 100</h1>
+  <p>미드·토크쇼·일상 대화에서 실제로 자주 들리는 표현 100개. 각 표현마다 뜻(영문 / 국문), 예문 5개, 그리고 원어민이 실제로 말하는 영상으로 바로 가는 링크를 붙였습니다.</p>
+  <div class="how">
+    <div><b>YouTube 실제 발화</b>YouGlish가 토크쇼·인터뷰·강연 등 유튜브 영상에서 그 표현이 나오는 순간부터 재생해 줍니다.</div>
+    <div><b>영화·드라마 장면</b>PlayPhrase.me가 프렌즈를 포함한 영화·드라마에서 그 대사가 나오는 짧은 장면을 이어서 보여 줍니다.</div>
+    <div><b>프렌즈 장면 검색</b>유튜브에서 Friends 장면 + 해당 표현으로 바로 검색합니다.</div>
+  </div>
+</header>
+
+<div class="bar" role="search">
+  <input id="q" type="search" placeholder="표현이나 뜻 검색 (예: out, 포기)" aria-label="표현 검색">
+  <button class="chip" id="f-all" aria-pressed="true" data-f="all">전체</button>
+  <button class="chip" id="f-pv" aria-pressed="false" data-f="pv">이어동사</button>
+  <button class="chip" id="f-col" aria-pressed="false" data-f="col">구어 표현</button>
+  <button class="chip" id="f-hide" aria-pressed="false">외운 것 숨기기</button>
+  <span class="count" id="count"></span>
+</div>
+
+<main class="list" id="list"></main>
+<p class="empty" id="empty" hidden>찾는 표현이 없습니다. 검색어를 바꿔 보세요.</p>
+</div>
+
+<script>
+// [표현, 종류(pv=이어동사/col=구어), 영문 뜻, 국문 뜻, 예문 5개(**표현** 강조), 영상 검색어(생략 시 표현 그대로)]
+const D = [
+["figure out","pv","to understand or solve something after thinking about it","(생각해서) 알아내다, 이해하다, 해결하다",
+ ["I can't **figure out** how to turn this thing on.","Don't worry, we'll **figure it out** together.","It took me a while to **figure out** what she meant.","Have you **figured out** what you're going to wear?","I'm still trying to **figure out** my life."]],
+["hang out","pv","to spend time relaxing with someone, with no special plan","(친구와) 어울려 놀다, 시간을 보내다",
+ ["Do you want to **hang out** this weekend?","We used to **hang out** at the coffee shop every day.","I'm just **hanging out** at home tonight.","It was so fun **hanging out** with you guys.","They **hang out** all the time now."]],
+["come up with","pv","to think of an idea, plan, or answer","(아이디어·해결책을) 생각해 내다",
+ ["She **came up with** a great idea for the party.","We need to **come up with** a better plan.","Who **came up with** that name?","I couldn't **come up with** an excuse fast enough.","Give me a minute and I'll **come up with** something."]],
+["run into","pv","to meet someone by chance; to experience a problem","우연히 마주치다 / (문제에) 부딪히다",
+ ["Guess who I **ran into** at the mall today?","I **ran into** my ex at the airport. So awkward.","We **ran into** some problems with the car.","If you **run into** any trouble, call me.","I keep **running into** him at the gym."]],
+["put off","pv","to delay doing something until a later time","미루다, 연기하다",
+ ["Stop **putting off** your homework.","We had to **put off** the wedding until next year.","I've been **putting off** calling my mom.","Don't **put off** going to the doctor.","Can we **put** the meeting **off** until Friday?"]],
+["give up","pv","to stop trying; to stop doing a habit","포기하다 / (습관을) 끊다",
+ ["Don't **give up**. You're almost there!","I **gave up** trying to understand him.","He finally **gave up** smoking.","I'm not **giving up** on us.","She never **gives up**, no matter what."]],
+["pick up","pv","to collect someone or something; to learn without studying; to answer the phone","데리러 가다, 집어 들다 / (자연스럽게) 익히다 / 전화를 받다",
+ ["Can you **pick** me **up** at seven?","I **picked up** some Spanish while traveling.","Why didn't you **pick up**? I called you five times!","Let me **pick up** some coffee on the way.","Kids **pick up** bad words really fast."]],
+["break up","pv","to end a romantic relationship","헤어지다",
+ ["Ross and Rachel **broke up** again?","We **broke up** last month, but we're still friends.","She **broke up** with him over text.","I think they're about to **break up**.","Why did you guys **break up**?"]],
+["make up","pv","to become friends again after an argument; to invent a story","화해하다 / (이야기를) 지어내다",
+ ["Did you two **make up** yet?","They had a fight but **made up** the next day.","Stop **making up** excuses.","I didn't **make** that **up**. It really happened!","Kiss and **make up**, you two."]],
+["get over","pv","to recover from something sad, an illness, or a bad experience","(슬픔·병을) 극복하다, 잊다",
+ ["I still haven't **gotten over** him.","It took me weeks to **get over** this cold.","You need to **get over** it and move on.","She'll **get over** it. Give her time.","I can't **get over** how good this pizza is!"]],
+["look forward to","pv","to feel excited about something that is going to happen","~을 기대하다, 고대하다",
+ ["I'm really **looking forward to** the trip.","We **look forward to** seeing you soon.","I'm not **looking forward to** Monday.","She's **looking forward to** meeting your parents.","What are you **looking forward to** most this year?"]],
+["show up","pv","to arrive or appear, often when expected or unexpected","(모임 등에) 나타나다, 오다",
+ ["He didn't even **show up** to his own party.","She **showed up** an hour late.","Thanks for **showing up** for me.","Just **show up** and be yourself.","Guess who **showed up** at my door last night?"]],
+["turn down","pv","to refuse an offer or request; to lower the volume","거절하다 / (소리를) 줄이다",
+ ["She **turned down** the job offer.","I can't believe you **turned** him **down**!","Can you **turn down** the music, please?","He asked her out and she **turned** him **down**.","I had to **turn down** the invitation."]],
+["work out","pv","to exercise; to end successfully; to solve","운동하다 / 잘 풀리다 / 해결하다",
+ ["I **work out** three times a week.","Don't worry. Everything will **work out**.","It didn't **work out** between us.","We'll **work** something **out**.","Do you **work out**? You look great."]],
+["hold on","pv","to wait for a short time; to keep holding something","잠깐 기다리다 / 꽉 잡다",
+ ["**Hold on**, let me get my keys.","**Hold on** a second. Did you just say married?","**Hold on** tight!","Can you **hold on**? I have another call.","Whoa, whoa, **hold on**. Slow down."]],
+["find out","pv","to learn or discover a fact","(사실을) 알아내다, 알게 되다",
+ ["When did you **find out**?","I just **found out** she's pregnant!","Let's **find out** what happened.","If Mom **finds out**, we're dead.","I **found out** the hard way."]],
+["freak out","pv","to suddenly become very upset, scared, or excited","기겁하다, 멘붕 오다, 난리 치다",
+ ["Don't **freak out**, but I scratched your car.","She totally **freaked out** when she saw the spider.","I'm kind of **freaking out** right now.","He **freaked out** when he heard the news.","Okay, nobody **freak out**."]],
+["calm down","pv","to become quiet and relaxed after being angry or excited","진정하다, 진정시키다",
+ ["**Calm down**. It's not the end of the world.","I need a minute to **calm down**.","Try to **calm** him **down** before he does something stupid.","Everybody just **calm down**!","Telling someone to **calm down** never works."]],
+["catch up","pv","to talk with someone to learn their news; to reach the same level","근황을 나누다 / 따라잡다",
+ ["Let's grab coffee and **catch up**.","We have so much to **catch up** on.","I need to **catch up** on some sleep.","Go ahead, I'll **catch up** with you later.","I'm trying to **catch up** on the show."]],
+["end up","pv","to finally be in a place or situation you did not plan","결국 ~하게 되다",
+ ["We **ended up** staying until 3 a.m.","How did you **end up** in Seoul?","I **ended up** buying the expensive one.","If you keep doing that, you'll **end up** alone.","We **ended up** having a great time."]],
+["bring up","pv","to start talking about a subject; to raise a child","(화제를) 꺼내다 / 키우다",
+ ["Why did you have to **bring that up**?","Don't **bring up** her ex at dinner.","I was **brought up** in a small town.","He keeps **bringing up** the same old story.","I'll **bring it up** at the meeting."]],
+["call off","pv","to cancel a planned event","취소하다",
+ ["They **called off** the wedding.","The game was **called off** because of rain.","Let's **call** the whole thing **off**.","We had to **call off** our trip.","Should we **call it off**?"]],
+["check out","pv","to look at something interesting; to leave a hotel","확인하다, 구경하다 / (호텔에서) 체크아웃하다",
+ ["**Check out** my new shoes!","You have to **check out** this restaurant.","What time do we need to **check out**?","**Check** this **out**. It's so cool.","Is he **checking** you **out**?"]],
+["come across","pv","to find or meet by chance; to seem a certain way","우연히 발견하다 / ~하게 보이다(인상을 주다)",
+ ["I **came across** an old photo of us.","He **comes across** as really shy.","Have you ever **come across** this word before?","I didn't mean to **come across** as rude.","I **came across** a great video on YouTube."]],
+["count on","pv","to depend on or trust someone","~을 믿다, 의지하다",
+ ["You can always **count on** me.","Can I **count on** you to keep this secret?","Don't **count on** him. He's always late.","I'm **counting on** you, buddy.","We're **counting on** good weather."]],
+["cut back on","pv","to use or do less of something","~을 줄이다",
+ ["I'm trying to **cut back on** sugar.","We need to **cut back on** spending.","The doctor told me to **cut back on** coffee.","I've **cut back on** social media lately.","Maybe you should **cut back on** the late nights."]],
+["deal with","pv","to handle a problem, task, or difficult person","(문제·사람을) 처리하다, 상대하다, 감당하다",
+ ["I can't **deal with** this right now.","How do you **deal with** stress?","I'll **deal with** it tomorrow.","She has to **deal with** rude customers every day.","**Deal with** it."]],
+["drop by","pv","to visit someone briefly, often without planning","잠깐 들르다",
+ ["Feel free to **drop by** anytime.","I'll **drop by** your office later.","Thanks for **dropping by**!","She **dropped by** with some cookies.","Why don't you **drop by** after work?"]],
+["fill in","pv","to give someone information they missed; to write information in a form; to replace someone","(빠진 소식을) 알려 주다 / 기입하다 / 대신하다",
+ ["Can someone **fill** me **in**? What did I miss?","Please **fill in** this form.","Can you **fill in** for me tomorrow?","I'll **fill** you **in** later.","She **filled in** the blanks."]],
+["get along with","pv","to have a friendly relationship with someone","~와 잘 지내다",
+ ["Do you **get along with** your roommate?","My mom and my wife don't **get along**.","We **get along** really well.","He's easy to **get along with**.","I just want everyone to **get along**."]],
+["get away with","pv","to do something wrong and not be punished","(나쁜 짓을 하고도) 무사히 넘어가다",
+ ["You won't **get away with** this!","How did he **get away with** that?","She always **gets away with** everything.","Don't think you can **get away with** lying to me.","I can't believe we **got away with** it."]],
+["give in","pv","to finally agree to something after resisting","굴복하다, (결국) 들어주다",
+ ["I finally **gave in** and bought the phone.","Don't **give in** to peer pressure.","She begged until I **gave in**.","He never **gives in**.","Fine, I **give in**. You win."]],
+["go through","pv","to experience something difficult; to examine carefully","(힘든 일을) 겪다 / 꼼꼼히 살펴보다",
+ ["She's **going through** a lot right now.","I know what you're **going through**.","Did you **go through** my phone?!","Let's **go through** the plan one more time.","We **went through** so much together."]],
+["hang up","pv","to end a phone call","전화를 끊다",
+ ["Don't **hang up** on me!","She **hung up** without saying goodbye.","You **hang up** first. No, you **hang up** first!","I have to **hang up** now. Bye!","He **hung up** the phone and smiled."]],
+["keep up with","pv","to stay at the same level or speed; to stay informed","(속도·수준을) 따라가다 / 소식을 계속 접하다",
+ ["I can't **keep up with** you. Slow down!","It's hard to **keep up with** all the new trends.","Do you **keep up with** the news?","She works hard to **keep up with** her classmates.","I can barely **keep up with** my emails."]],
+["let down","pv","to disappoint someone","실망시키다",
+ ["I promise I won't **let** you **down**.","I feel like I **let** everyone **down**.","The ending really **let** me **down**.","Don't **let** me **down** this time.","He's never **let** me **down**."]],
+["look into","pv","to investigate or examine something","조사하다, 알아보다",
+ ["I'll **look into** it and get back to you.","The police are **looking into** the case.","Can you **look into** cheaper flights?","We're **looking into** the problem.","I should **look into** that."]],
+["mess up","pv","to make a mistake; to ruin something","망치다, 실수하다",
+ ["I really **messed up** this time.","Don't **mess** this **up** for me.","I **messed up** the order. Sorry!","You **messed up** my hair!","Everybody **messes up** sometimes."]],
+["move on","pv","to stop thinking about the past and start something new","(과거를 털고) 넘어가다, 새 출발하다",
+ ["It's time to **move on**.","Have you **moved on** from her?","Let's **move on** to the next topic.","I've **moved on**. I'm happy now.","You need to let go and **move on**."]],
+["pass out","pv","to become unconscious; to fall asleep from being very tired","기절하다, 뻗다(곯아떨어지다)",
+ ["I almost **passed out** when I saw the bill.","He **passed out** on the couch after the party.","I was so tired, I **passed out** at 9 p.m.","She **passed out** from the heat.","Don't drink so much you **pass out**."]],
+["pull off","pv","to succeed in doing something difficult","(어려운 일을) 해내다",
+ ["I can't believe we **pulled it off**!","Not many people can **pull off** that hat.","Do you think we can **pull this off**?","She **pulled off** an amazing surprise party.","He **pulled off** the impossible."]],
+["put up with","pv","to accept or tolerate something unpleasant","참다, 견디다",
+ ["I can't **put up with** his attitude anymore.","How do you **put up with** that noise?","Thanks for **putting up with** me.","I've **put up with** this for years.","I won't **put up with** being lied to."]],
+["run out of","pv","to use all of something so none is left","~이 다 떨어지다",
+ ["We **ran out of** milk.","I'm **running out of** time!","My phone **ran out of** battery.","We've **run out of** ideas.","Don't let the car **run out of** gas."]],
+["set up","pv","to arrange or prepare something; to introduce two people romantically","준비하다, 설치하다 / (소개팅을) 주선하다",
+ ["Can you help me **set up** the TV?","I **set up** a meeting for Tuesday.","She tried to **set** me **up** with her cousin.","We **set up** a little stand outside.","Wait, were you **set up**?"]],
+["settle down","pv","to start living a quiet, stable life; to become calm","정착하다, 자리 잡다 / 진정하다",
+ ["I'm not ready to **settle down** yet.","They got married and **settled down** in Busan.","Okay, everyone, **settle down**.","He finally **settled down** after years of traveling.","When are you going to **settle down**?"]],
+["show off","pv","to try to impress people with your abilities or things","자랑하다, 뽐내다",
+ ["Stop **showing off**!","He's just **showing off** his new car.","She loves to **show off** her cooking.","I'm not **showing off**, I'm just good at it.","Go on, **show off** your dance moves."]],
+["sort out","pv","to fix a problem or organize something","해결하다, 정리하다",
+ ["Don't worry, I'll **sort it out**.","We need to **sort out** this mess.","Did you **sort out** your visa?","Let them **sort it out** themselves.","I'm trying to **sort out** my feelings."]],
+["stand out","pv","to be easy to notice; to be better than others","눈에 띄다, 두드러지다",
+ ["That red dress really **stands out**.","Her resume **stood out** from the rest.","I don't like to **stand out** in a crowd.","What **stood out** to you in the movie?","He **stands out** because he's so tall."]],
+["take after","pv","to look or behave like an older family member","(부모·가족을) 닮다",
+ ["You really **take after** your dad.","Who do you **take after** more?","She **takes after** her grandmother.","I **take after** my mom in personality.","Your son totally **takes after** you."]],
+["talk into","pv","to persuade someone to do something","설득해서 ~하게 하다",
+ ["She **talked** me **into** going skydiving.","Don't let him **talk** you **into** it.","How did you **talk** her **into** this?","I got **talked into** buying the extended warranty.","Try to **talk** him **into** coming with us."]],
+["throw up","pv","to vomit","토하다",
+ ["I think I'm going to **throw up**.","He **threw up** on the roller coaster.","The baby **threw up** all over me.","That smell makes me want to **throw up**.","She was so nervous she almost **threw up**."]],
+["try on","pv","to put on clothes to see if they fit or look good","(옷을) 입어 보다",
+ ["Can I **try** this **on**?","**Try on** a bigger size.","I **tried on** ten dresses today.","Where can I **try** these jeans **on**?","You should **try it on** before buying."]],
+["turn out","pv","to happen in a particular way; to be discovered to be","(결과가) ~로 드러나다, 판명되다",
+ ["It **turns out** he was right.","The party **turned out** great.","**Turns out**, she's not single.","Everything **turned out** fine in the end.","It **turned out** to be a big mistake."]],
+["wrap up","pv","to finish something; to dress warmly","마무리하다 / 따뜻하게 껴입다",
+ ["Let's **wrap up** this meeting.","We're **wrapping up** in five minutes.","Okay, that's a **wrap**. Good job, everyone!","**Wrap up** warm. It's freezing outside.","Can you **wrap it up**? We're late."],"wrap up"],
+["zone out","pv","to stop paying attention and think about nothing","멍때리다",
+ ["Sorry, I totally **zoned out**. What did you say?","I always **zone out** in math class.","He **zones out** whenever she talks about work.","I just want to **zone out** and watch TV.","Don't **zone out** while driving."]],
+["back off","pv","to move away; to stop pressuring someone","물러서다, 그만 간섭하다",
+ ["**Back off**! Give her some space.","You need to **back off** a little.","He finally **backed off** and let me decide.","**Back off**, man. This is my seat.","I'll **back off** if you want me to."]],
+["blow up","pv","to explode; to suddenly become very angry; to become very popular","폭발하다 / 버럭 화내다 / 갑자기 유명해지다",
+ ["My phone has been **blowing up** all day.","He **blew up** at me for no reason.","Her video **blew up** overnight.","The car **blew up** in the movie.","Don't **blow up** at the kids."]],
+["chill out","pv","to relax; to stop being upset","진정해, 느긋하게 쉬다",
+ ["**Chill out**, it's just a game.","We just **chilled out** at the beach.","You need to **chill out**, dude.","I'm going to stay home and **chill**.","**Chill out**. I've got it under control."],"chill out"],
+["cheer up","pv","to become happier; to make someone happier","기운 내다, 기운 나게 하다",
+ ["**Cheer up**! It's not that bad.","I bought you flowers to **cheer** you **up**.","This song always **cheers** me **up**.","Come on, **cheer up**.","She **cheered up** after talking to her friends."]],
+["screw up","pv","to make a big mistake (informal)","(크게) 망치다, 실수하다",
+ ["I **screwed up**. I'm so sorry.","Don't **screw** this **up**.","He **screwed up** the presentation.","I totally **screwed up** my test.","We all **screw up** sometimes."]],
+["No way!","col","used to show surprise or disbelief; also a strong no","말도 안 돼! / 절대 안 돼!",
+ ["**No way!** You got the job?","**No way** I'm eating that.","You met Taylor Swift? **No way!**","**No way!** That's amazing!","Lend him money? **No way.**"],"no way"],
+["I'm down","col","I'm willing to do it; I agree to join","나 콜! / 좋아, 할래",
+ ["Pizza tonight? **I'm down**.","**I'm down** for a movie.","If you're going, **I'm down**.","Are you **down**? Let's go!","**I'm so down** for that."],"I'm down"],
+["It's not a big deal","col","it is not important or serious","별거 아니야, 괜찮아",
+ ["Relax, **it's not a big deal**.","**It's no big deal**. I'll fix it.","Why are you making **a big deal** out of this?","Don't worry, **it's not a big deal**.","Okay, maybe **it's kind of a big deal**."],"no big deal"],
+["My bad","col","an informal way to say it was my mistake","내 잘못이야, 미안",
+ ["Oops, **my bad**!","**My bad**, I didn't see you there.","**My bad**. I forgot to call.","Wrong room? **My bad**.","Sorry, **my bad**. Let me try again."]],
+["Hang in there","col","keep going and don't give up during a hard time","조금만 버텨, 힘내",
+ ["**Hang in there**. It'll get better.","I know it's tough, but **hang in there**.","Just **hang in there** a little longer.","**Hang in there**, buddy.","She told me to **hang in there**."]],
+["I'm in","col","I want to join or take part","나도 낄게, 나도 할래",
+ ["A road trip? **I'm in**!","Count me **in**.","If you're doing it, **I'm in**.","Who's **in**? **I'm in**.","Okay, fine. **I'm in**."],"I'm in"],
+["You bet","col","yes, certainly; also a casual reply to thanks","물론이지 / (고맙다는 말에) 천만에",
+ ["Can you help me? **You bet**!","Thanks for the ride! **You bet**.","**You bet** I'm coming.","Want some pie? **You bet**!","**You bet** your life it's true."]],
+["Spill the tea","col","tell me the gossip or interesting news","썰 풀어 봐, 얘기 좀 해 봐",
+ ["Okay, **spill the tea**. What happened?","Come on, **spill the tea**!","She **spilled the tea** about her breakup.","Who's dating who? **Spill**!","I'm here for the **tea**."]],
+["Low-key","col","a little; secretly; not openly","은근히, 살짝, 남몰래",
+ ["I **low-key** want to quit my job.","This song is **low-key** amazing.","I'm **low-key** jealous.","We had a **low-key** birthday this year.","He **low-key** likes her."],"low key"],
+["No cap","col","no lie; for real (slang)","진짜로, 거짓말 아님",
+ ["That was the best burger ever, **no cap**.","**No cap**, I saw a celebrity today.","She's the funniest person I know, **no cap**.","**No cap**? You're serious?","I studied ten hours, **no cap**."]],
+["For real","col","really, seriously; used to check if something is true","진짜로 / 진짜야?",
+ ["**For real**? You're moving?","I'm **for real**. I'm not joking.","That movie was scary **for real**.","Are you **for real** right now?","**For real**, thank you so much."]],
+["I can't even","col","something is so funny, shocking, or annoying that I cannot react normally","어이없어 할 말도 없다 / 너무 웃겨(귀여워)서 감당 불가",
+ ["That puppy is so cute, **I can't even**.","He said what? **I can't even**.","**I literally can't even** right now.","**I can't even** with you.","This day is too much. **I can't even**."]],
+["Break a leg","col","good luck (especially before a performance)","행운을 빌어 (특히 공연 전에)",
+ ["**Break a leg** tonight!","Big audition tomorrow? **Break a leg**!","They told me to **break a leg** before the show.","**Break a leg** out there!","Good luck... I mean, **break a leg**!"]],
+["Piece of cake","col","something very easy","식은 죽 먹기",
+ ["The test was a **piece of cake**.","Don't worry, it's a **piece of cake**.","Fixing it? **Piece of cake**.","For her, cooking is a **piece of cake**.","That was not a **piece of cake**!"]],
+["Get the hang of it","col","to learn how to do something after some practice","요령을 터득하다, 감 잡다",
+ ["You'll **get the hang of it**.","I'm finally **getting the hang of** driving.","It's hard at first, but you'll **get the hang of it**.","Once you **get the hang of it**, it's easy.","I still haven't **gotten the hang of** this app."],"get the hang of"],
+["Call it a day","col","to stop working for the day","오늘은 여기까지 하다",
+ ["Let's **call it a day**.","I'm tired. I'm going to **call it a day**.","We did enough. **Call it a day**?","After ten hours, we finally **called it a day**.","Okay, guys, let's **call it a night**."]],
+["I'm all ears","col","I'm ready and eager to listen","잘 듣고 있어, 말해 봐",
+ ["You have a plan? **I'm all ears**.","Go ahead, **I'm all ears**.","Tell me everything. **I'm all ears**.","If you have advice, **I'm all ears**.","Okay, **I'm all ears**. What happened?"]],
+["It's up to you","col","you can decide","네가 정해, 너한테 달렸어",
+ ["Pizza or pasta? **It's up to you**.","**It's totally up to you**.","I don't mind. **It's up to you**.","Whether you go or not is **up to you**.","**It's up to you** now."],"up to you"],
+["What's up?","col","a casual greeting: how are you / what's happening","잘 지내? / 무슨 일이야?",
+ ["Hey, **what's up**?","**What's up** with you today?","**What's up**, man? Long time!","You look upset. **What's up**?","Not much. **What's up** with you?"],"what's up"],
+["Fair enough","col","that's reasonable; I accept that","그럴 만하네, 일리 있어",
+ ["You're tired? **Fair enough**.","**Fair enough**. Let's do it your way.","He wants more money. **Fair enough**.","**Fair enough**, I was wrong.","That's **fair enough**."]],
+["Give me a break","col","stop it, I don't believe you; or please give me a chance","그만 좀 해, 말도 안 돼 / 좀 봐줘",
+ ["Oh, **give me a break**! That's not true.","**Give me a break**, I just started.","You're tired? **Give me a break**.","Can you **give me a break** for once?","**Gimme a break**!"]],
+["Long time no see","col","a greeting when you have not seen someone for a long time","오랜만이야",
+ ["Hey! **Long time no see**!","Wow, **long time no see**. How have you been?","**Long time no see**, buddy.","**Long time no see**! You look great.","Oh my God, **long time no see**!"]],
+["That's on me","col","it's my fault; or I'll pay for it","그건 내 탓이야 / 그건 내가 낼게",
+ ["**That's on me**. I should've told you.","Don't worry about the bill. **It's on me**.","Drinks are **on me** tonight!","Sorry, **that's on me**.","Lunch is **on me**."],"that's on me"],
+["Ghost (someone)","col","to suddenly stop replying to someone with no explanation","잠수 타다, 연락 끊다",
+ ["He **ghosted** me after our third date.","Don't **ghost** her. Just be honest.","I got **ghosted** again.","Did you just **ghost** the group chat?","She totally **ghosted** me."],"ghosted"],
+["Vibe","col","the feeling or atmosphere of a person or place; to get along well","분위기, 느낌 / 잘 통하다",
+ ["I love the **vibe** of this café.","I'm getting a weird **vibe** from him.","We really **vibe** together.","The **vibes** are immaculate.","Just **vibing** at home."]],
+["Sus","col","suspicious; seems dishonest (slang)","수상한, 의심스러운",
+ ["That guy is kind of **sus**.","Why are you acting so **sus**?","That deal sounds **sus**.","He's been really **sus** lately.","Lowkey **sus**, not gonna lie."]],
+["Salty","col","annoyed or bitter about something small (slang)","삐진, 뒤끝 있는, 짜증 난",
+ ["Why are you so **salty**?","He's still **salty** about losing the game.","Don't be **salty**. It was a joke.","She got **salty** when I didn't invite her.","I'm a little **salty**, not gonna lie."]],
+["FOMO","col","fear of missing out: worry that others are having fun without you","나만 소외될까 봐 불안한 마음",
+ ["I have serious **FOMO** right now.","I only went because of **FOMO**.","Instagram gives me **FOMO**.","Don't let **FOMO** make your choices.","**FOMO** is real, man."],"fomo"],
+["Rain check","col","a promise to accept an invitation at a later time","다음 기회에 (약속을 미룸)",
+ ["Can I take a **rain check** on dinner?","Sorry, **rain check**?","I'll have to take a **rain check**.","Let's do a **rain check** for next week.","Rain check? Sure, no problem."],"rain check"],
+["Hit me up","col","contact me; send me a message","연락해, 톡해",
+ ["**Hit me up** when you get there.","If you need anything, **hit me up**.","**Hit me up** this weekend.","He **hit me up** last night.","**Hit me up** on Instagram."]],
+["I've got your back","col","I will support and protect you","내가 있잖아, 내가 지켜 줄게",
+ ["Don't worry. **I've got your back**.","Thanks for **having my back**.","No matter what, **I've got your back**.","We **got your back**, man.","She's always **had my back**."],"got your back"],
+["Keep me posted","col","tell me about any new information","계속 소식 알려 줘",
+ ["**Keep me posted** on the interview.","Okay, **keep me posted**.","Please **keep me posted** about your mom.","I'll **keep you posted**.","**Keep me posted**, okay?"]],
+["Don't sweat it","col","don't worry about it","걱정 마, 신경 쓰지 마",
+ ["**Don't sweat it**. It happens.","Thanks! Hey, **don't sweat it**.","Forgot my birthday? **Don't sweat it**.","**Don't sweat** the small stuff.","**No sweat**, I'll handle it."]],
+["It is what it is","col","it's a situation that cannot be changed, so accept it","어쩔 수 없지, 원래 그런 거야",
+ ["We lost. **It is what it is**.","**It is what it is**. Let's move on.","I didn't get the job, but **it is what it is**.","Traffic's terrible. **It is what it is**.","Hey, **it is what it is**."]],
+["You nailed it","col","you did it perfectly","완벽했어, 제대로 해냈어",
+ ["Great speech. **You nailed it**!","You totally **nailed** that interview.","She **nailed** the high note.","**Nailed it**!","I think we **nailed it**."],"nailed it"],
+["Bite the bullet","col","to make yourself do something unpleasant that you have been avoiding","(싫지만) 꾹 참고 하다, 각오하다",
+ ["I finally **bit the bullet** and called her.","Just **bite the bullet** and do it.","We had to **bite the bullet** and pay.","I'm going to **bite the bullet** and go to the dentist.","Time to **bite the bullet**."]],
+["Under the weather","col","feeling a little sick","몸이 좀 안 좋은",
+ ["I'm feeling a bit **under the weather**.","She's **under the weather** today.","Sorry, I can't come. I'm **under the weather**.","You look **under the weather**.","He's been **under the weather** all week."]],
+["Touch base","col","to make brief contact with someone to share updates","잠깐 연락하다, 짧게 확인하다",
+ ["Let's **touch base** next week.","I just wanted to **touch base** with you.","Can we **touch base** after lunch?","I'll **touch base** with the team.","We should **touch base** soon."]],
+["Bet","col","okay, sure, deal (Gen Z slang)","오케이, 콜, 좋아",
+ ["See you at eight? **Bet**.","**Bet**, I'll be there.","You want to race? **Bet**.","I'll pay you back tomorrow. **Bet**.","Pizza after school? **Bet**!"],"bet"],
+["How you doin'?","col","a casual (often flirty) way to say hello","잘 지내? (작업 거는 듯한 인사)",
+ ["Hey there. **How you doin'**?","He walked up to her and said, **How you doin'**?","**How you doin'**, man?","Joey's famous line is **How you doin'**?","Well, hello. **How you doin'**?"],"how you doin"]
+];
+
+const enc = s => encodeURIComponent(s);
+const esc = s => s.replace(/[&<>]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;"}[c]));
+const markup = s => esc(s).replace(/\*\*(.+?)\*\*/g, "<mark>$1</mark>");
+const searchKey = (p, q) => (q || p.replace(/\s*\(.*?\)\s*/g, " ").replace(/[!?]/g, "")).trim();
+const ICON = '<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 2.5v11l9-5.5z"/></svg>';
+
+let done = new Set();
+try { done = new Set(JSON.parse(localStorage.getItem("re100-done") || "[]")); } catch(e) {}
+const save = () => { try { localStorage.setItem("re100-done", JSON.stringify([...done])); } catch(e) {} };
+
+const list = document.getElementById("list");
+list.innerHTML = D.map((d, i) => {
+  const [p, t, en, kr, ex, q] = d;
+  const k = searchKey(p, q);
+  const n = i + 1;
+  return `<article id="e${n}" data-i="${i}" data-t="${t}" data-s="${esc((p+" "+en+" "+kr).toLowerCase())}">
+    <div class="num">${String(n).padStart(3,"0")}</div>
+    <div class="body">
+      <div class="top"><h2><span>${esc(p)}</span></h2><span class="tag ${t==="col"?"col":""}">${t==="pv"?"이어동사":"구어 표현"}</span></div>
+      <div class="mean"><div class="en">${esc(en)}</div><div class="kr">${esc(kr)}</div></div>
+      <div class="label">예문</div>
+      <ol class="ex">${ex.map(s => `<li>${markup(s)}</li>`).join("")}</ol>
+      <div class="label">영상으로 듣기</div>
+      <div class="clips">
+        <a href="https://youglish.com/pronounce/${enc(k)}/english/us" target="_blank" rel="noopener">${ICON}YouTube 실제 발화</a>
+        <a href="https://www.playphrase.me/#/search?q=${enc(k)}" target="_blank" rel="noopener">${ICON}영화·드라마 장면</a>
+        <a href="https://www.youtube.com/results?search_query=${enc('Friends scene "' + k + '"')}" target="_blank" rel="noopener">${ICON}프렌즈 장면 검색</a>
+      </div>
+      <label class="done-box"><input type="checkbox" id="d${n}" ${done.has(n)?"checked":""}> 외웠어요</label>
+    </div>
+  </article>`;
+}).join("");
+
+let filter = "all", hide = false;
+const qEl = document.getElementById("q"), countEl = document.getElementById("count"), emptyEl = document.getElementById("empty");
+function apply(){
+  const q = qEl.value.trim().toLowerCase();
+  let shown = 0;
+  list.querySelectorAll("article").forEach(a => {
+    const n = +a.dataset.i + 1;
+    a.classList.toggle("done", done.has(n));
+    const ok = (filter === "all" || a.dataset.t === filter) && (!q || a.dataset.s.includes(q)) && !(hide && done.has(n));
+    a.hidden = !ok; if (ok) shown++;
+  });
+  emptyEl.hidden = shown > 0;
+  countEl.textContent = `${shown}개 표시 · 외운 표현 ${done.size}/100`;
+}
+qEl.addEventListener("input", apply);
+document.querySelectorAll(".chip[data-f]").forEach(b => b.addEventListener("click", () => {
+  filter = b.dataset.f;
+  document.querySelectorAll(".chip[data-f]").forEach(x => x.setAttribute("aria-pressed", x === b));
+  apply();
+}));
+document.getElementById("f-hide").addEventListener("click", e => { hide = !hide; e.currentTarget.setAttribute("aria-pressed", hide); apply(); });
+list.addEventListener("change", e => {
+  if (e.target.type !== "checkbox") return;
+  const n = +e.target.closest("article").dataset.i + 1;
+  e.target.checked ? done.add(n) : done.delete(n);
+  save(); apply();
+});
+apply();
+</script>
+<a href="index.html" aria-label="홈으로" style="position:fixed;z-index:20;right:calc(14px + env(safe-area-inset-right,0px));bottom:calc(14px + env(safe-area-inset-bottom,0px));display:flex;align-items:center;gap:6px;padding:10px 16px;border-radius:999px;background:#ff6b4a;color:#fff;font:700 16px 'Noto Sans KR',system-ui,sans-serif;text-decoration:none;box-shadow:0 4px 14px rgba(0,0,0,.18)">🏠 홈</a>
+<script>if ("serviceWorker" in navigator) addEventListener("load", () => navigator.serviceWorker.register("sw.js"));</script>
+</html>
