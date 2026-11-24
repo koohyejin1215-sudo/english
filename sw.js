@@ -1,5 +1,5 @@
 // 우리집 영어 오프라인 저장: 앱 파일과 글꼴을 휴대폰에 저장해 인터넷 없이도 열리게 한다.
-const CACHE = "uri-english-20261121235351";
+const CACHE = "uri-english-20261124114333";
 const FILES = ["./", "index.html", "kid.html", "phrasal.html", "manifest.webmanifest", "icon-192.png", "icon-512.png", "icon-maskable.png", "apple-touch-icon.png"];
 
 self.addEventListener("install", e => {
